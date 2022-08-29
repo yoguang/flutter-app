@@ -3,9 +3,19 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
+import 'recommend.dart';
 import 'list.dart';
 
 AudioPlayer audioPlayer = AudioPlayer();
+
+const imageList = [
+  'https://p1.music.126.net/COXWzpE_qJsoTE8WyY5XNw==/109951167827678314.jpg?imageView&quality=89',
+  'https://p1.music.126.net/X-tXz7G7F37S3TKcw15TfA==/109951167827348201.jpg?imageView&quality=89',
+  'https://p1.music.126.net/a6o0ralpDfJnCLfuax0W-Q==/109951167825430323.jpg?imageView&quality=89',
+  'https://p1.music.126.net/pHSIWa8vvWvKl-uDiB2rRw==/109951167825465849.jpg?imageView&quality=89',
+  'https://p1.music.126.net/z3z3u1c6YUJ0ENoHnAXzxg==/109951167825406515.jpg?imageView&quality=89',
+];
 
 void main() {
   runApp(const MyApp());
@@ -87,40 +97,50 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> Menu = const [
-      HomeMenuItem(
-        Icons.calendar_month,
-        text: '每日推荐',
+    List<Widget> Menu = [
+      GestureDetector(
+        child: const HomeMenuItem(
+          Icons.calendar_month,
+          text: '每日推荐',
+        ),
+        onTap: () => {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) {
+              return const Recommend();
+            }),
+          ),
+        },
       ),
-      HomeMenuItem(
+      const HomeMenuItem(
         Icons.radio,
         text: '私人FM',
       ),
-      HomeMenuItem(
+      const HomeMenuItem(
         Icons.playlist_play,
         text: '歌单',
       ),
-      HomeMenuItem(
+      const HomeMenuItem(
         Icons.list_sharp,
         text: '排行榜',
       ),
-      HomeMenuItem(
+      const HomeMenuItem(
         Icons.book,
         text: '有声书',
       ),
-      HomeMenuItem(
+      const HomeMenuItem(
         Icons.book,
         text: '有声书',
       ),
-      HomeMenuItem(
+      const HomeMenuItem(
         Icons.book,
         text: '有声书',
       ),
-      HomeMenuItem(
+      const HomeMenuItem(
         Icons.book,
         text: '有声书',
       ),
-      HomeMenuItem(
+      const HomeMenuItem(
         Icons.book,
         text: '有声书',
       ),
@@ -181,6 +201,54 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
+                // SizedBox(
+                //   width: 340,
+                //   height: 120,
+                //   child: ClipRRect(
+                //     borderRadius: BorderRadius.circular(10.0),
+                //     child: ConstrainedBox(
+                //       constraints: const BoxConstraints.expand(),
+                //       child: Stack(
+                //         alignment: Alignment.center, //指定未定位或部分定位widget的对齐方式
+                //         children: <Widget>[
+                //           Image.asset('images/cover.jpg',
+                //               width: 340, fit: BoxFit.cover),
+                //           const Positioned(
+                //             right: 0,
+                //             bottom: 0,
+                //             child: DecoratedBox(
+                //               decoration: BoxDecoration(
+                //                 gradient: LinearGradient(
+                //                   colors: [
+                //                     Colors.red,
+                //                     Colors.red,
+                //                   ],
+                //                 ), //
+                //                 borderRadius: BorderRadius.only(
+                //                   topLeft: Radius.circular(10),
+                //                 ),
+                //               ),
+                //               child: Padding(
+                //                 padding: EdgeInsets.only(
+                //                   left: 10,
+                //                   right: 10,
+                //                   bottom: 4,
+                //                 ),
+                //                 child: Text(
+                //                   "热歌推荐",
+                //                   style: TextStyle(
+                //                     fontSize: 10,
+                //                     color: Colors.white,
+                //                   ),
+                //                 ),
+                //               ),
+                //             ),
+                //           ),
+                //         ],
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 SizedBox(
                   width: 340,
                   height: 120,
@@ -188,43 +256,28 @@ class _MyHomePageState extends State<MyHomePage> {
                     borderRadius: BorderRadius.circular(10.0),
                     child: ConstrainedBox(
                       constraints: const BoxConstraints.expand(),
-                      child: Stack(
-                        alignment: Alignment.center, //指定未定位或部分定位widget的对齐方式
-                        children: <Widget>[
-                          Image.asset('images/cover.jpg',
-                              width: 340, fit: BoxFit.cover),
-                          const Positioned(
-                            right: 0,
-                            bottom: 0,
-                            child: DecoratedBox(
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: [
-                                    Colors.red,
-                                    Colors.red,
-                                  ],
-                                ), //
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(10),
-                                ),
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                  left: 10,
-                                  right: 10,
-                                  bottom: 4,
-                                ),
-                                child: Text(
-                                  "热歌推荐",
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
+                      child: Swiper(
+                        itemBuilder: (BuildContext context, int index) {
+                          //条目构建函数传入了index,根据index索引到特定图片
+                          return Image.network(
+                            imageList[index],
+                            fit: BoxFit.fill,
+                          );
+                        },
+                        itemCount: imageList.length,
+                        autoplay: true,
+                        pagination: const SwiperPagination(), //这些都是控件默认写好的,直接用
+                        // control: const SwiperControl(),
+                        onTap: (index) {
+                          if (index == 0) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) {
+                                return const Recommend();
+                              }),
+                            );
+                          }
+                        },
                       ),
                     ),
                   ),
@@ -240,8 +293,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ),
                 ),
-                const Recommend(),
-                Artists(),
+                const RecommendSong(),
+                const Artists(),
                 // 音乐列表
                 Center(
                   child: Column(
@@ -518,7 +571,7 @@ class DetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('無限列表'),
+        title: const Text('无线列表'),
       ),
       body: const Center(
         child: InfiniteListView(),
@@ -527,8 +580,8 @@ class DetailPage extends StatelessWidget {
   }
 }
 
-class Recommend extends StatelessWidget {
-  const Recommend({Key? key}) : super(key: key);
+class RecommendSong extends StatelessWidget {
+  const RecommendSong({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
