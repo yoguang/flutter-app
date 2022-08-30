@@ -571,7 +571,7 @@ class DetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('无线列表'),
+        title: const Text('无限列表'),
       ),
       body: const Center(
         child: InfiniteListView(),
