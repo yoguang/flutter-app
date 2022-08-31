@@ -6,6 +6,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'recommend.dart';
 import 'list.dart';
+import 'refreshPage.dart';
 
 AudioPlayer audioPlayer = AudioPlayer();
 
@@ -112,9 +113,19 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         },
       ),
-      const HomeMenuItem(
-        Icons.radio,
-        text: '私人FM',
+      GestureDetector(
+        child: const HomeMenuItem(
+          Icons.radio,
+          text: '私人FM',
+        ),
+        onTap: () => {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) {
+              return const RefreshPage();
+            }),
+          ),
+        },
       ),
       const HomeMenuItem(
         Icons.playlist_play,

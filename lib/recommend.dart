@@ -68,18 +68,6 @@ class _RecommendState extends State<Recommend> {
         ),
       ],
     );
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('每日推荐'),
-        elevation: 0, // bar 阴影
-        backgroundColor: Colors.transparent,
-      ),
-      body: SizedBox(
-        child: Image.network(
-            'https://p1.music.126.net/COXWzpE_qJsoTE8WyY5XNw==/109951167827678314.jpg?imageView&quality=89'),
-      ),
-      backgroundColor: const Color.fromARGB(255, 95, 60, 101),
-    );
   }
 
   void _retrieveData() {
